@@ -4,6 +4,7 @@ import {Container, Header} from "semantic-ui-react";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import RestaurantList from './components/RestaurantList';
+import RestaurantForm from './components/RestaurantForm';
 
 function App() {
 
@@ -28,14 +29,52 @@ function App() {
     }
   };
 
+  //add a new restaurant
+  const addRestaurant = async (restaurant) =>{
+    try{
+      let res = await axios.post("/api/restaurants", restaurant);
+      setRestaurants([...restaurants, res.data])
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  //update db
+  const updateRestaurant = async (id) =>{
+    try{
+      let res = await axios.put(`/api/restaurants/${id}`);
+      let newRestaurants = restaurants.map((r)=>
+        r.id !== id ? r : {...r}
+      )
+      setRestaurants(newRestaurants)
+    }catch(err){
+      console.log(err);
+    }
+  };
+
+  //delete from db
+  const deleteRestaurant = async (id) =>{
+    try{
+      let res = await axios.delete(`/api/restaurants/${id}`)
+      let newRestaurants = restaurants.filter((r)=> r.id !== id);
+      setRestaurants(newRestaurants);
+    }catch(err){
+      console.log(err);
+    }
+  };
+
   const renderRestaurants = () =>{
     if(loading) return <p>loading...</p>;
     if(error) return <p>error</p>;
     return(
       <>
       <Header as="h1" textAlign="center">Restaurant App</Header>
-      <RestaurantList restaurants={restaurants} />
-      <br/>
+      <RestaurantForm addRestaurant={addRestaurant} />
+      <RestaurantList 
+      updateRestaurant={updateRestaurant}
+      deleteRestaurant={deleteRestaurant}
+      restaurants={restaurants} 
+      />
       </>
     )
   }

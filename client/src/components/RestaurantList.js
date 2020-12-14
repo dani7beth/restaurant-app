@@ -4,7 +4,10 @@ const RestaurantList = (props) =>{
     return (
         <ul>
             {props.restaurants.map((r)=>(
-                <Restaurant key={r.id} {...r} />
+                <Restaurant 
+                updateRestaurant={props.updateRestaurant}
+                deleteRestaurant={props.deleteRestaurant}
+                key={r.id} {...r} />
             ))}
         </ul>
     )
