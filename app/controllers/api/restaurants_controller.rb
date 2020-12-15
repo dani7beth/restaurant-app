@@ -1,6 +1,6 @@
 class Api::RestaurantsController < ApplicationController
     def index
-        render json: Restaurant.all
+        render json: Restaurant.all.includes(:menus).as_json(include: {menus: {only: [:name]}})
     end
 
     def create

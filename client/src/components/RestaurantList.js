@@ -1,6 +1,7 @@
 import Restaurant from "./Restaurant";
 
 const RestaurantList = (props) =>{
+    
     return (
         <ul>
             {props.restaurants.map((r)=>(

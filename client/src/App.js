@@ -9,6 +9,7 @@ import RestaurantForm from './components/RestaurantForm';
 function App() {
 
   const [restaurants, setRestaurants] = useState([]);
+  const [menus, setMenus] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -16,11 +17,19 @@ function App() {
     getRestaurants();
   }, []);
 
+  //path for menus /api/restaurants/:restaurant_id/menus(.:format)
+  
+
   const getRestaurants = async () =>{
     try{
       //get restaurants from db
       let res = await axios.get('/api/restaurants');
       setRestaurants(res.data);
+      res.data.map((m) => {
+        let men = axios.get(`/api/restaurants/${m.id}/menus`);
+        setMenus(men);
+      })
+      
     }catch(err){
       setError(true);
       console.log(err);
@@ -74,6 +83,7 @@ function App() {
       updateRestaurant={updateRestaurant}
       deleteRestaurant={deleteRestaurant}
       restaurants={restaurants} 
+      menus={menus}
       />
       </>
     )
