@@ -7,7 +7,6 @@ import RestaurantList from './components/RestaurantList';
 import RestaurantForm from './components/RestaurantForm';
 
 function App() {
-
   const [restaurants, setRestaurants] = useState([]);
   const [menus, setMenus] = useState([]);
   const [error, setError] = useState(false);
@@ -39,10 +38,14 @@ function App() {
   };
 
   //add a new restaurant
-  const addRestaurant = async (restaurant) =>{
+  const addRestaurant = async (restaurant, menu) =>{
     try{
       let res = await axios.post("/api/restaurants", restaurant);
       setRestaurants([...restaurants, res.data])
+      res.data.map((m) => {
+        let men = axios.post(`/api/restaurants/${m.id}/menus`, menu);
+        setMenus([...menus, men]);
+    })
     }catch(err){
       console.log(err);
     }

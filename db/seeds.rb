@@ -10,6 +10,6 @@
 5.times do |i|
     res = Restaurant.create(name: Faker::Restaurant.name)
     3.times do |i|
-        res.menus.create(name: "Menu #{i}")
+        res.menus.create(name: "Menu #{i + 1}")
     end
 end

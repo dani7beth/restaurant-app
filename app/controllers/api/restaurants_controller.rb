@@ -1,12 +1,12 @@
 class Api::RestaurantsController < ApplicationController
     def index
-        render json: Restaurant.all.includes(:menus).as_json(include: {menus: {only: [:name]}})
+        render json: Restaurant.all.includes(:menus).as_json(include: :menus)
     end
 
     def create
         restaurant = Restaurant.new(restaurant_params)
         if restaurant.save
-            render json: restaurant
+            render json: restaurant.includes(:menus).as_json(include: :menus)
         else
             render json: {errors: restaurant.errors}, status: :unprocessable_entity
         end

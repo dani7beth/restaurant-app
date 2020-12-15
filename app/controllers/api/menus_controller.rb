@@ -6,6 +6,14 @@ class Api::MenusController < ApplicationController
         @menus = @restaurant.menus
     end
 
+    def create
+        menu = @restaurant.menus.new(menu_params)
+        if menu.save
+            render json: menu
+        else
+            render json: {errors: menu.errors}, status :unprocessable_entity
+        end
+    end
     private
 
     def set_restaurant
