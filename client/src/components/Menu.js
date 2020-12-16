@@ -1,19 +1,19 @@
 import Axios from "axios"
 import { useEffect, useState } from "react";
 import { Button, Card, Header } from "semantic-ui-react";
-import {useParams} from 'react-router-dom';
 import MenuForm from "./MenuForm";
 
 
-export default ({id}) =>{
-    // let {restaurantId} = useParams();
+const Menu = (props) =>{
     const [menus, setMenus] = useState([]);
-    // console.log(id);
+    const [showForm, setShowForm] = useState(false);
+
+    // console.log(props.id);
     const readMenus = async ()=>{
         try{
-            let res = await Axios.get(`/api/restaurants/${id}/menus`);
+            let res = await Axios.get(`/api/restaurants/${props.id}/menus`);
             setMenus(res.data);
-            // console.log(res.data);
+            console.log(res.data);
         }catch(err){
             console.log(err);
         }
@@ -33,7 +33,7 @@ export default ({id}) =>{
                         <Card.Content>
                             <Card.Header>{m.name}</Card.Header>
                             <Button icon="pencil"/>
-                            <Button icon="trash" color="red"/>
+                            <Button icon="trash" color="red" onClick={()=>deleteMenu(m.id)}/>
                         </Card.Content>
                     </Card>
                     
@@ -44,9 +44,19 @@ export default ({id}) =>{
 
     const addMenu = async (menu) =>{
         try{
-            let res = await Axios.post(`/api/restaurants/${id}/menus`, menu);
+            let res = await Axios.post(`/api/restaurants/${props.id}/menus`, menu);
             setMenus([...menus, res.data]);
             // console.log(res.data);
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const deleteMenu = async (id)=>{
+        try{
+            let res = await Axios.delete(`/api/restaurants/${props.id}/menus/${id}`);
+            let newMenus = menus.filter((m)=> m.id !== id);
+            setMenus(newMenus);
         }catch(err){
             console.log(err);
         }
@@ -55,9 +65,10 @@ export default ({id}) =>{
     return (
         <>
         <Header>Menus</Header>
-        <Button>add</Button>
-        <MenuForm addMenu={addMenu}/>
+        <Button onClick={()=>setShowForm(!showForm)}>add</Button>
+        {showForm && <MenuForm addMenu={addMenu}/>}
         {renderMenus()}
         </>
     )
 }
+export default Menu;
