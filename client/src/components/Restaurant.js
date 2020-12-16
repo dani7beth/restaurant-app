@@ -1,6 +1,5 @@
-import { render } from "react-dom"
 import { Button, Divider, Header} from "semantic-ui-react"
-import MenuList from "./MenuList"
+import Menu from './Menu'
 
 const Restaurant = ({id, name, deleteRestaurant, menus}) =>{    
     return (
@@ -8,7 +7,7 @@ const Restaurant = ({id, name, deleteRestaurant, menus}) =>{
         <Header as="h1">{name}</Header>
         <Button color="red" onClick={()=> deleteRestaurant(id)}>delete</Button>
         <Divider/>
-        <MenuList menus={menus}/>
+        <Menu id={id}/>
         </>
     )
 }

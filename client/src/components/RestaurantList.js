@@ -1,4 +1,3 @@
-import MenuList from "./MenuList";
 import Restaurant from "./Restaurant";
 
 const RestaurantList = (props) =>{
@@ -12,7 +11,6 @@ const RestaurantList = (props) =>{
                 deleteRestaurant={props.deleteRestaurant}
                 key={r.id} {...r} 
                 />
-                {/* <MenuList key={r.id} menus={r.menus} /> */}
                 </>
             ))}
         </ul>

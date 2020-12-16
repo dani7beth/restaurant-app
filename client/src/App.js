@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {Container, Header} from "semantic-ui-react";
 import axios from 'axios';
@@ -8,7 +7,6 @@ import RestaurantForm from './components/RestaurantForm';
 
 function App() {
   const [restaurants, setRestaurants] = useState([]);
-  const [menus, setMenus] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -24,11 +22,6 @@ function App() {
       //get restaurants from db
       let res = await axios.get('/api/restaurants');
       setRestaurants(res.data);
-      res.data.map((m) => {
-        let men = axios.get(`/api/restaurants/${m.id}/menus`);
-        setMenus(men);
-      })
-      
     }catch(err){
       setError(true);
       console.log(err);
@@ -38,18 +31,16 @@ function App() {
   };
 
   //add a new restaurant
-  const addRestaurant = async (restaurant, menu) =>{
+  const addRestaurant = async (restaurant) =>{
     try{
       let res = await axios.post("/api/restaurants", restaurant);
-      setRestaurants([...restaurants, res.data])
-      res.data.map((m) => {
-        let men = axios.post(`/api/restaurants/${m.id}/menus`, menu);
-        setMenus([...menus, men]);
-    })
+      setRestaurants([...restaurants, res.data]);
     }catch(err){
       console.log(err);
     }
   }
+  
+  
 
   //update db
   const updateRestaurant = async (id) =>{
@@ -86,7 +77,6 @@ function App() {
       updateRestaurant={updateRestaurant}
       deleteRestaurant={deleteRestaurant}
       restaurants={restaurants} 
-      menus={menus}
       />
       </>
     )
