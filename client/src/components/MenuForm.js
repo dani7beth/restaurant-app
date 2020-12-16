@@ -7,6 +7,7 @@ export default (props) =>{
     const handleSubmit = (e) =>{
         if(props.id){
             props.updateMenu(props.id,{name});
+            props.hideEditForm();
         }else{
             props.addMenu({name});
         }

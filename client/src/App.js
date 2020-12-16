@@ -58,7 +58,7 @@ function App() {
   //delete from db
   const deleteRestaurant = async (id) =>{
     try{
-      let res = await axios.delete(`/api/restaurants/${id}`)
+      // let res = await axios.delete(`/api/restaurants/${id}`)
       let newRestaurants = restaurants.filter((r)=> r.id !== id);
       setRestaurants(newRestaurants);
     }catch(err){
