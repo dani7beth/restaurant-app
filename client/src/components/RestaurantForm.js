@@ -3,10 +3,15 @@ import { Form } from "semantic-ui-react";
 
 export default (props) =>{
     const [name, setName] = useState('');
-
+    
     const handleSubmit = (e) =>{
-        props.addRestaurant({name});
+        if(props.id){
+            props.updateRestaurant(props.id,{name});
+        }else{
+            props.addRestaurant({name});
+        }
         setName('');
+
     };
 
     return(
@@ -14,11 +19,12 @@ export default (props) =>{
             <Form.Input 
             label={'Restaurant'}
             value={name}
+            name={name}
             onChange={(e)=> {
                 setName(e.target.value);
             }}
             />
-            <Form.Button type="submit">add</Form.Button>
+            <Form.Button type="submit">{props.id ? "Edit Restaurant" : "Add Restaurant"}</Form.Button>
         </Form>
     )
 }

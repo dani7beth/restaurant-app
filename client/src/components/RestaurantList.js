@@ -9,6 +9,7 @@ const RestaurantList = (props) =>{
                 <Restaurant 
                 updateRestaurant={props.updateRestaurant}
                 deleteRestaurant={props.deleteRestaurant}
+                addRestaurant={props.addRestaurant}
                 key={r.id} {...r} 
                 />
                 </>

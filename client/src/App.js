@@ -43,11 +43,11 @@ function App() {
   
 
   //update db
-  const updateRestaurant = async (id) =>{
+  const updateRestaurant = async (id, restaurant) =>{
     try{
-      let res = await axios.put(`/api/restaurants/${id}`);
+      let res = await axios.put(`/api/restaurants/${id}`, restaurant);
       let newRestaurants = restaurants.map((r)=>
-        r.id !== id ? r : {...r}
+        r.id !== id ? r : res.data
       )
       setRestaurants(newRestaurants)
     }catch(err){
@@ -77,7 +77,9 @@ function App() {
       updateRestaurant={updateRestaurant}
       deleteRestaurant={deleteRestaurant}
       restaurants={restaurants} 
+      addRestaurant={addRestaurant}
       />
+      
       </>
     )
   }

@@ -14,7 +14,7 @@ class Api::RestaurantsController < ApplicationController
 
     def update
         restaurant = Restaurant.find(params[:id])
-        restaurant.update()
+        restaurant.update(restaurant_params)
         render json: restaurant
     end
 
