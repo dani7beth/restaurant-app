@@ -2,6 +2,7 @@ import Axios from "axios"
 import { useEffect, useState } from "react";
 import { Button, Card, Header } from "semantic-ui-react";
 import {useParams} from 'react-router-dom';
+import MenuForm from "./MenuForm";
 
 
 export default ({id}) =>{
@@ -41,10 +42,21 @@ export default ({id}) =>{
         )
     }
 
+    const addMenu = async (menu) =>{
+        try{
+            let res = await Axios.post(`/api/restaurants/${id}/menus`, menu);
+            setMenus([...menus, res.data]);
+            // console.log(res.data);
+        }catch(err){
+            console.log(err);
+        }
+    }
+
     return (
         <>
         <Header>Menus</Header>
         <Button>add</Button>
+        <MenuForm addMenu={addMenu}/>
         {renderMenus()}
         </>
     )
